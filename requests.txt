@@ -1,0 +1,76 @@
+to make an order the body will be + to provide the token as header:
+
+{
+    "address":"6th Of October",
+    "userName":"zeenaTheAdmin2002","phoneNumber":"01157131310",
+    "describe":"i want to buy this one",
+    "product":{
+        "name":"fjj",
+        "description":"dvjddvfv fvjhvf vjfvf vjfbv ", 
+        "price":394.4, 
+        "images":[]
+    }
+}
+
+--------------------------------------------------------------------------
+
+to (sign up + verify user) functions the body will be :
+
+{
+    "email":"saob2002@gmail.com",
+    "password":"any password",
+    "name":"ksjfks",
+    "phoneNumber":"01157131310"
+}
+
+--------------------------------------------------------------------------
+
+to ( login + change the password ) the body will be :
+
+{
+    "email":"saob2002@gmail.com",
+    "password":"any password",
+}
+
+--------------------------------------------------------------------------
+
+in forgot your password function the body will be :
+
+"the email "
+
+--------------------------------------------------------------------------
+
+to search for a product with its name the body will be + to provide the token as header :
+
+"the name of the product"
+
+--------------------------------------------------------------------------
+
+to get all the products there is no body needed + to provide the token as header .
+
+--------------------------------------------------------------------------
+
+to add a new product in the database the body will be :
+
+{
+    "name":"fjj",
+    "description":"dvjddvfv fvjhvf vjfvf vjfbv ", 
+    "price":394.4, 
+    "images":[]
+}
+
+--------------------------------------------------------------------------
+
+to delete a product from the database the body will be:
+
+" the product id only "
+
+--------------------------------------------------------------------------
+
+to complete an order and to remove it from the database the body will be :
+
+" the product id only "
+
+--------------------------------------------------------------------------
+
+to get the total number of orders that happened in the whole ArtsByZee no body needed .

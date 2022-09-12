@@ -31,10 +31,10 @@ def login(user : UserLogIn,response: Response):
         return {"failure": "Wrong email or password"}
 
 @authRouter.post("/forgotpassword")
-def forgotPassword(response: Response, email: dict = Body(...)):
+def forgotPassword(response: Response, email: str = Body(...)):
     for user in database[DBNAME]["Users"].find():
-        if user['email'].lower() == email['email'].lower():
-            return {"otp":str(forgotPasswordEmail(email['email']))}
+        if user['email'].lower() == email.lower():
+            return {"otp":str(forgotPasswordEmail(email))}
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"failure":"User doesn't exists"}
@@ -59,7 +59,7 @@ def verifyUser(response: Response, user: UserSignUp):
         return {"failure":"weak password it must be at least 10 characters with special symbols"}
 
 @authRouter.put("/forgotpassword/changepassword")
-def changePassword(user: UserSignUp,response:Response):
+def changePassword(user: UserLogIn,response:Response):
     if isStrongPassword(user.password):
         user.email = user.email.lower()
         user.password = hashPassword(user.password)

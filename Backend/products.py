@@ -11,8 +11,7 @@ products = APIRouter()
 @products.post("/admin/addProduct")
 def addProduct(theProduct: Product):
     try:
-        product = database[DBNAME]["Products"].insert_one(theProduct.__dict__)
-        #print(product.__dict__)
+        database[DBNAME]["Products"].insert_one(theProduct.__dict__)
         return {"success":f"{theProduct.name} added successfully"}
     except:
         return {"failure":"Can't add this product right now again later Zeena"}
@@ -26,11 +25,11 @@ def deleteProduct(productId: str = Body(...)):
         return {"failure":"Can't delete this product for now try again later Zeena!!!"}
 
 
-@products.get("/admin/getProduct")
-def getProductFromId(productId: str = Body(...)):
-    product = database[DBNAME]["Products"].find_one({"_id":ObjectId(productId)})
-    product["_id"] = str(product["_id"])
-    return product
+# @products.get("/admin/getProduct")
+# def getProductFromId(productId: str = Body(...)):
+#     product = database[DBNAME]["Products"].find_one({"_id":ObjectId(productId)})
+#     product["_id"] = str(product["_id"])
+#     return product
 
 @products.delete("/admin/complete_order")
 def completeOrder(productId: str = Body(...)):
