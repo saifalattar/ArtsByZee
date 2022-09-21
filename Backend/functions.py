@@ -40,15 +40,12 @@ def forgotPasswordEmail(sendTo: str):
 
     message.add_header("From", "ArtsByZee")
     message.add_header("To", "you")
+    message.add_header("Subject", "Reset your ArtsByZee password" )
     message.attach(MIMEText(
-    """<img src="https://instagram.fcai20-5.fna.fbcdn.net/v/t51.2885-19/73188176_435023720546516_1937603272147730432_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcai20-5.fna.fbcdn.net&_nc_cat=108&_nc_ohc=8YcmR4FhF0AAX_YnI5d&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AT98Klot3dL_oxcD85yct3KfyWIOrs16zWvR0u4K-F5Lcw&oe=63230D0B&_nc_sid=8fd12b" alt="IYP" border="0" />
-
+    """<img src="https://instagram.fcai20-5.fna.fbcdn.net/v/t51.2885-19/73188176_435023720546516_1937603272147730432_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcai20-5.fna.fbcdn.net&_nc_cat=108&_nc_ohc=8YcmR4FhF0AAX_YnI5d&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AT98Klot3dL_oxcD85yct3KfyWIOrs16zWvR0u4K-F5Lcw&oe=63230D0B&_nc_sid=8fd12b" alt="Iyp-black-white" border="0" width=100 />
     <body style="background-color:white">
     <br/>
-    <h1>Forgot your password</h1>
-    <br />
-    <br />
-
+    <h2>Change your ArtsByZee password</h2>
     your OTP is:
     <h3>{}</h3>
     </body>

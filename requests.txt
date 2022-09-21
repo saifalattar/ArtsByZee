@@ -2,7 +2,8 @@ to make an order the body will be + to provide the token as header:
 
 {
     "address":"6th Of October",
-    "userName":"zeenaTheAdmin2002","phoneNumber":"01157131310",
+    "userName":"zeenaTheAdmin2002",
+    "phoneNumber":"01157131310",
     "describe":"i want to buy this one",
     "product":{
         "name":"fjj",
