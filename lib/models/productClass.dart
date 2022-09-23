@@ -6,11 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Product extends StatelessWidget {
-  final String? name, description, productID;
+  final String? name,
+      description,
+      productID,
+      address,
+      customs,
+      phoneNumber,
+      userName;
   final double? price;
   final List? images;
+
   const Product(
-      {this.productID, this.name, this.description, this.images, this.price})
+      {this.productID,
+      this.name,
+      this.description,
+      this.images,
+      this.price,
+      this.address,
+      this.phoneNumber,
+      this.userName,
+      this.customs})
       : super();
 
   @override
@@ -52,15 +67,15 @@ class Product extends StatelessWidget {
                   options: CarouselOptions(
                       viewportFraction: 1, enableInfiniteScroll: false)),
               const SizedBox(height: 60),
-              Divider(
+              const Divider(
                 thickness: 3,
                 color: Color.fromARGB(255, 246, 211, 224),
               ),
-              Divider(
+              const Divider(
                 thickness: 3,
                 color: Color.fromARGB(255, 246, 211, 224),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Text(
@@ -70,21 +85,21 @@ class Product extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Colors.grey[700]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 "$price EGP",
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 "$description",
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: const TextStyle(fontSize: 20, color: Colors.grey),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               Center(
@@ -98,7 +113,7 @@ class Product extends StatelessWidget {
     });
   }
 
-  Widget productCard() {
+  Widget productCard(BuildContext context, {bool isForDelete = false}) {
     TextStyle style =
         const TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
     return Padding(
@@ -153,10 +168,85 @@ class Product extends StatelessWidget {
                     ))
               ],
             ),
-            const Icon(
-              Icons.navigate_next,
-              size: 30,
-            )
+            !isForDelete
+                ? const Icon(
+                    Icons.navigate_next,
+                    size: 30,
+                  )
+                : isRendered
+                    ? IconButton(
+                        onPressed: () {
+                          ZEECubit.Get(context)
+                              .deleteProduct(context, productID!);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ))
+                    : const Loading(
+                        width: 90,
+                      )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget orderCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        gradient: LinearGradient(colors: [
+          Colors.lightBlue.shade100,
+          Colors.pink.shade50,
+          Colors.white
+        ], begin: Alignment.topRight, end: Alignment.bottomCenter),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+              child: Image.network(images![0]),
+            ),
+            Text(
+              "$name",
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "$price EGP",
+              style: const TextStyle(
+                fontSize: 25,
+              ),
+            ),
+            Text(
+              "$phoneNumber",
+              style: const TextStyle(
+                fontSize: 25,
+              ),
+            ),
+            Text(
+              "$address",
+              style: const TextStyle(
+                fontSize: 25,
+              ),
+            ),
+            Text(
+              "$customs",
+              style: const TextStyle(
+                fontSize: 25,
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  ZEECubit.Get(context).completeOrder(context, productID!);
+                },
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.green,
+                ))
           ],
         ),
       ),

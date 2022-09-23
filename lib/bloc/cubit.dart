@@ -183,11 +183,11 @@ class ZEECubit extends Cubit<ZEEStates> {
 ///////////////////////////////////////////////////////////////////////////////////////
   List allProducts = [];
   List searchedProducts = [];
-  Future<List> getProducts(BuildContext context) async {
+  Future<List> getProducts(BuildContext context, {String? token}) async {
     allProducts.clear();
     await Dio()
         .get("$BASE_URL/usersPage/products",
-            options: Options(headers: {"token": userToken}))
+            options: Options(headers: {"token": token ?? userToken}))
         .then((value) {
       value.data.forEach((val) {
         allProducts.add(Product(
@@ -322,15 +322,14 @@ class ZEECubit extends Cubit<ZEEStates> {
   Future<void> deleteProduct(BuildContext context, String productID) async {
     isRendered = false;
     emit(UpdateSmallData());
-    await Dio()
-        .delete("$BASE_URL/admin/deleteProduct", data: productID)
-        .then((value) {
+    await Dio().delete("$BASE_URL/admin/deleteProduct",
+        data: {"id": productID}).then((value) {
       isRendered = true;
       emit(UpdateSmallData());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           content: Row(
-            children: [Icon(Icons.done), Text(value.data["success"])],
+            children: [const Icon(Icons.done), Text(value.data["success"])],
           )));
     }).catchError((onError) {
       isRendered = true;
@@ -339,7 +338,7 @@ class ZEECubit extends Cubit<ZEEStates> {
           backgroundColor: Colors.red,
           content: Row(
             children: [
-              Icon(Icons.error),
+              const Icon(Icons.error),
               Text(onError.response.data["failure"])
             ],
           )));
@@ -349,9 +348,8 @@ class ZEECubit extends Cubit<ZEEStates> {
   Future<void> completeOrder(BuildContext context, String productID) async {
     isRendered = false;
     emit(UpdateSmallData());
-    await Dio()
-        .delete("$BASE_URL/admin/complete_order", data: productID)
-        .then((value) {
+    await Dio().delete("$BASE_URL/admin/complete_order",
+        data: {"id": productID}).then((value) {
       isRendered = true;
       emit(UpdateSmallData());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -373,11 +371,37 @@ class ZEECubit extends Cubit<ZEEStates> {
     });
   }
 
-  Future<int> getStatistics() async {
-    await Dio().get("$BASE_URL/admin/get_all_number_of_orders").then((value) {
-      return value.data;
+  Future getOrders(BuildContext context) async {
+    List orders = [];
+    await Dio().get("$BASE_URL/admin/get_all_orders").then((value) {
+      value.data.forEach((val) {
+        orders.add(Product(
+          productID: val["_id"] as String,
+          name: val["product"]["name"],
+          price: val["product"]["price"],
+          description: val["product"]["description"],
+          images: val["product"]["images"],
+          address: val["address"],
+          customs: val["describe"],
+          phoneNumber: val["phoneNumber"],
+          userName: val["userName"],
+        ));
+      });
+    }).catchError((onError) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          content: Row(
+            children: [
+              const Icon(Icons.error),
+              Text(onError.response.data["failure"])
+            ],
+          )));
     });
+    return orders;
+  }
 
-    return -1;
+  Future<int> getStatistics() async {
+    var data = await Dio().get("$BASE_URL/admin/get_all_number_of_orders");
+    return data.data["totalNum"];
   }
 }

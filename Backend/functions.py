@@ -6,7 +6,7 @@ import smtplib
 from jose import jwt
 from passlib.context import CryptContext
 
-from Backend.schemas import DBNAME, database
+from schemas import DBNAME, database
 
 #to check whether the password is strong or not
 def isStrongPassword(password:str):

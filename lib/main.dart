@@ -15,7 +15,8 @@ Future<void> main() async {
   runApp(BlocProvider(
     create: (context) => ZEECubit(),
     child: BlocBuilder<ZEECubit, ZEEStates>(builder: (context, states) {
-      return MaterialApp(home: userToken == null ? SignUp() : HomeScreen());
+      return MaterialApp(
+          home: userToken == null ? const SignUp() : const HomeScreen());
     }),
   ));
 }

@@ -25,12 +25,21 @@ class ProductsScreen extends StatelessWidget {
         body: FutureBuilder(
           builder: (context, AsyncSnapshot ss) {
             if (!ss.hasData) {
-              return Center(
+              return const Center(
                 child: Loading(
                   width: 150,
                 ),
               );
             } else {
+              if (ss.data.length == 0) {
+                return const Center(
+                  child: Text(
+                    "Sorry no Products for now\nStay tuned !!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                );
+              }
               return ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (context, index) {

@@ -1,6 +1,6 @@
-from Backend.schemas import DBNAME, UserLogIn
-from Backend.functions import forgotPasswordEmail, getToken, hashPassword, isStrongPassword, verificationEmail, verifyPassword
-from Backend.schemas import UserSignUp, database
+from schemas import DBNAME, UserLogIn
+from functions import forgotPasswordEmail, getToken, hashPassword, isStrongPassword, verificationEmail, verifyPassword
+from schemas import UserSignUp, database
 from fastapi import APIRouter, Body, status, Response
 
 

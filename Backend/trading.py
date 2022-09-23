@@ -1,8 +1,8 @@
 from datetime import date
 import datetime
 from fastapi import APIRouter, Header, Body, Response, status
-from Backend.schemas import DBNAME, Order, database
-from Backend.functions import isValidToken
+from schemas import DBNAME, Order, database
+from functions import isValidToken
 from bson import ObjectId
 
 

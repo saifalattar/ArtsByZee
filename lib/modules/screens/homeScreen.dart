@@ -16,33 +16,85 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<ZEECubit, ZEEStates>(builder: (context, state) {
       var cubit = ZEECubit.Get(context);
       return Scaffold(
-        backgroundColor: babyBlue,
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  cubit.signOut().then((value) {
-                    goTo(context, const LogIn());
-                  });
-                },
-                icon: const Icon(Icons.person))
-          ],
-          title: const Center(
-            child: Text("Home"),
-          ),
-          elevation: 0,
-          toolbarHeight: 50,
-          backgroundColor: pink,
-        ),
-        body: Column(
-          children: [
-            FloatingActionButton(onPressed: () {
-              goTo(context, const ProductsScreen());
-            }),
-            Loading()
-          ],
-        ),
-      );
+          backgroundColor: babyBlue,
+          body: SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset(
+                          "images/ZeeIcon.png",
+                        ),
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: pink,
+                              borderRadius: BorderRadius.circular(25)),
+                          height: 160,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("See All Products\n",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28,
+                                      color: Colors.white)),
+                              IconButton(
+                                  onPressed: () {
+                                    goTo(context, const ProductsScreen());
+                                  },
+                                  icon: const Icon(
+                                    Icons.navigate_next,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25)),
+                          height: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Log Out",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                      color: Colors.white)),
+                              IconButton(
+                                  onPressed: () {
+                                    cubit.signOut().then((value) {
+                                      goTo(context, const LogIn());
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.navigate_before,
+                                    color: Colors.white,
+                                    size: 30,
+                                  )),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Developed by : ",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 11),
+                                  ),
+                                  Image.asset(
+                                    "images/iyp grey.png",
+                                    width: 40,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]))));
     });
   }
 }

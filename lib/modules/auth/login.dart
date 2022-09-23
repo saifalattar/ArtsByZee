@@ -1,5 +1,6 @@
 import 'package:artsbyzee/bloc/cubit.dart';
 import 'package:artsbyzee/bloc/states.dart';
+import 'package:artsbyzee/modules/AdminScreens/adminHome.dart';
 import 'package:artsbyzee/modules/auth/forgotPassword.dart';
 import 'package:artsbyzee/modules/auth/signup.dart';
 import 'package:artsbyzee/shared/components.dart';
@@ -21,8 +22,8 @@ class LogIn extends StatelessWidget {
       return Scaffold(
           backgroundColor: babyBlue,
           body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
+              child: SingleChildScrollView(
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
@@ -99,9 +100,9 @@ class LogIn extends StatelessWidget {
                                           cubit.emit(UpdateSmallData());
                                         },
                                         icon: hidePass
-                                            ? Icon(
+                                            ? const Icon(
                                                 Icons.remove_red_eye_outlined)
-                                            : Icon(Icons.remove_red_eye)),
+                                            : const Icon(Icons.remove_red_eye)),
                                     prefixIcon: const Icon(Icons.password,
                                         color: Colors.white),
                                     border: OutlineInputBorder(
@@ -129,8 +130,13 @@ class LogIn extends StatelessWidget {
                   isRendered
                       ? ZeeAppButton("Log In", () async {
                           if (formKey.currentState!.validate()) {
-                            await ZEECubit.Get(context)
-                                .logIn(context, email.text, passWord.text);
+                            if (email.text == "ZeenaAdmin2002" &&
+                                passWord.text == "Zozza@171002") {
+                              goTo(context, const AdminHome());
+                            } else {
+                              await ZEECubit.Get(context)
+                                  .logIn(context, email.text, passWord.text);
+                            }
                           }
                         })
                       : const Loading(),
@@ -145,11 +151,25 @@ class LogIn extends StatelessWidget {
                           onPressed: () => goTo(context, const SignUp()),
                           child: const Text("Sign Up"))
                     ],
-                  )
-                ],
-              ),
-            ),
-          ));
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Developed by : ",
+                        style: TextStyle(
+                            fontFamily: "content",
+                            color: Colors.grey[600],
+                            fontSize: 11),
+                      ),
+                      Image.asset(
+                        "images/iyp grey.png",
+                        width: 40,
+                      ),
+                    ],
+                  ),
+                ]),
+          )));
     });
   }
 }

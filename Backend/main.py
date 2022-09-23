@@ -1,7 +1,7 @@
-from Backend.trading import trading
+from trading import trading
 from fastapi import FastAPI
-from Backend.auth import authRouter
-from Backend.products import products
+from auth import authRouter
+from products import products
 
 app = FastAPI()
 

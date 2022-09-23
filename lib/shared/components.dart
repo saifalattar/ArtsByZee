@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String BASE_URL = "http://192.168.1.15:8000";
+String BASE_URL = "https://1bwiq9.deta.dev";
 
 String? userToken;
 
@@ -72,6 +72,32 @@ class Loading extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Image.asset("images/ZeeLoading.gif"),
+    );
+  }
+}
+
+class NoOrders extends StatelessWidget {
+  final double width;
+  const NoOrders({Key? key, this.width = 100}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Image.asset("images/noOrders.gif"),
+    );
+  }
+}
+
+class NoProducts extends StatelessWidget {
+  final double width;
+  const NoProducts({Key? key, this.width = 100}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Image.asset("images/noOrders.gif"),
     );
   }
 }
