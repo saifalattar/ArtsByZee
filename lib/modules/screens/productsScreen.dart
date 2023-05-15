@@ -8,19 +8,22 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({Key? key}) : super(key: key);
+  final bool isSearch;
+  final String? keyWord;
+  const ProductsScreen({Key? key, this.isSearch = false, this.keyWord})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ZEECubit, ZEEStates>(builder: ((context, state) {
-      var cubit = ZEECubit.Get(context);
       return Scaffold(
         backgroundColor: babyBlue,
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 50,
           backgroundColor: pink,
-          title: const Center(child: Text("Products")),
+          title: Center(
+              child: Text(isSearch ? "Search for \"$keyWord\"" : "Products")),
         ),
         body: FutureBuilder(
           builder: (context, AsyncSnapshot ss) {
@@ -32,31 +35,38 @@ class ProductsScreen extends StatelessWidget {
               );
             } else {
               if (ss.data.length == 0) {
-                return const Center(
+                return Center(
                   child: Text(
-                    "Sorry no Products for now\nStay tuned !!",
+                    isSearch
+                        ? "No results for your search\n\"$keyWord\""
+                        : "Sorry no Products for now\nStay tuned !!",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 30),
                   ),
                 );
+              } else {
+                print("hereee");
+                return ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        child: ss.data[index].productCard(context),
+                        onTap: () {
+                          goTo(context, ss.data[index]);
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                          height: 10,
+                        ),
+                    itemCount: ss.data.length);
               }
-              return ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: ss.data[index].productCard(),
-                      onTap: () {
-                        goTo(context, ss.data[index]);
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 10,
-                      ),
-                  itemCount: ss.data.length);
             }
           },
-          future: ZEECubit.Get(context).getProducts(context),
+          future: isSearch
+              ? ZEECubit.Get(context).searchProduct(context, keyWord as String)
+              : ZEECubit.Get(context).getProducts(context),
         ),
       );
     }));

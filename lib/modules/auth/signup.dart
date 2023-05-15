@@ -169,19 +169,6 @@ class SignUp extends StatelessWidget {
                             child: Text("LogIn"))
                       ],
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(
-                        "Developed by : ",
-                        style: TextStyle(
-                            fontFamily: "content",
-                            color: Colors.grey[600],
-                            fontSize: 11),
-                      ),
-                      Image.asset(
-                        "images/iyp grey.png",
-                        width: 40,
-                      ),
-                    ]),
                   ]),
             ),
           ));

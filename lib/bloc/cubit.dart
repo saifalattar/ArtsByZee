@@ -1,15 +1,12 @@
 import 'package:artsbyzee/bloc/states.dart';
-import 'package:artsbyzee/main.dart';
 import 'package:artsbyzee/models/productClass.dart';
 import 'package:artsbyzee/modules/auth/login.dart';
-import 'package:artsbyzee/modules/auth/signup.dart';
 import 'package:artsbyzee/modules/auth/verifyPassword.dart';
 import 'package:artsbyzee/shared/components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../modules/screens/homeScreen.dart';
 
 class ZEECubit extends Cubit<ZEEStates> {
@@ -21,12 +18,16 @@ class ZEECubit extends Cubit<ZEEStates> {
       String phoneNumber, BuildContext context) async {
     isRendered = false;
     emit(UpdateSmallData());
-    var response = await Dio().post("$BASE_URL/signup", data: {
-      "email": email,
-      "password": password,
-      "name": userName,
-      "phoneNumber": phoneNumber
-    }).then((value) async {
+    var response = await Dio().post("$BASE_URL/signup",
+        options: Options(headers: {
+          "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+        }),
+        data: {
+          "email": email,
+          "password": password,
+          "name": userName,
+          "phoneNumber": phoneNumber
+        }).then((value) async {
       final db = await SharedPreferences.getInstance();
       await db.setString("token", value.data["token"]);
       await db.setStringList("userData", [userName, phoneNumber]);
@@ -57,6 +58,9 @@ class ZEECubit extends Cubit<ZEEStates> {
     isRendered = false;
     emit(UpdateSmallData());
     var response = await Dio().post("$BASE_URL/login",
+        options: Options(headers: {
+          "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+        }),
         data: {"email": email, "password": password}).then((value) async {
       final db = await SharedPreferences.getInstance();
       await db.setStringList(
@@ -69,8 +73,8 @@ class ZEECubit extends Cubit<ZEEStates> {
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
           (route) => false);
-      ;
     }).catchError((onError) {
+      print(onError.response.toString());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
           content: Row(
@@ -97,10 +101,14 @@ class ZEECubit extends Cubit<ZEEStates> {
   ) async {
     isRendered = false;
     emit(UpdateSmallData());
-    var response = await Dio().post("$BASE_URL/verifyuser", data: {
-      "email": email,
-      "password": password,
-    }).then((value) {
+    var response = await Dio().post("$BASE_URL/verifyuser",
+        options: Options(headers: {
+          "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+        }),
+        data: {
+          "email": email,
+          "password": password,
+        }).then((value) {
       isRendered = true;
       emit(UpdateSmallData());
       tempOtp = value.data["otp"];
@@ -123,6 +131,9 @@ class ZEECubit extends Cubit<ZEEStates> {
     isRendered = false;
     emit(UpdateSmallData());
     await Dio().post("$BASE_URL/password/forgotpassword",
+        options: Options(headers: {
+          "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+        }),
         data: {"email": email}).then((value) {
       isRendered = true;
       emit(UpdateSmallData());
@@ -134,6 +145,8 @@ class ZEECubit extends Cubit<ZEEStates> {
             Email: email,
           ));
     }).catchError((onError) {
+      print("the error is ::::::::::::::::::::::::::::");
+      print(onError);
       isRendered = true;
       emit(UpdateSmallData());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -151,10 +164,14 @@ class ZEECubit extends Cubit<ZEEStates> {
       BuildContext context, String email, String password) async {
     isRendered = false;
     emit(UpdateSmallData());
-    await Dio().put("$BASE_URL/password/changepassword", data: {
-      "email": email,
-      "password": password,
-    }).then((value) {
+    await Dio().put("$BASE_URL/password/changepassword",
+        options: Options(headers: {
+          "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+        }),
+        data: {
+          "email": email,
+          "password": password,
+        }).then((value) {
       isRendered = true;
       emit(UpdateSmallData());
       goTo(context, const LogIn());
@@ -187,7 +204,10 @@ class ZEECubit extends Cubit<ZEEStates> {
     allProducts.clear();
     await Dio()
         .get("$BASE_URL/usersPage/products",
-            options: Options(headers: {"token": token ?? userToken}))
+            options: Options(headers: {
+              "token": token ?? userToken,
+              "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+            }))
         .then((value) {
       value.data.forEach((val) {
         allProducts.add(Product(
@@ -212,26 +232,26 @@ class ZEECubit extends Cubit<ZEEStates> {
     return allProducts;
   }
 
-  Future<void> searchProduct(BuildContext context, String keyWord) async {
-    isRendered = false;
-    emit(UpdateSmallData());
-    var response = await Dio()
+  Future searchProduct(BuildContext context, String keyWord) async {
+    searchedProducts.clear();
+    await Dio()
         .post("$BASE_URL/usersPage/products/search",
-            data: keyWord, options: Options(headers: {"token": userToken}))
+            data: {"word": keyWord},
+            options: Options(headers: {
+              "token": userToken,
+              "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+            }))
         .then((value) {
+      print(value.data);
       value.data.forEach((val) {
         searchedProducts.add(Product(
           name: val["name"],
           price: val["price"],
           description: val["description"],
-          images: val["images"] as List<String>,
+          images: val["images"],
         ));
       });
-      isRendered = true;
-      emit(UpdateSmallData());
     }).catchError((onError) {
-      isRendered = true;
-      emit(UpdateSmallData());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
           content: Row(
@@ -241,6 +261,7 @@ class ZEECubit extends Cubit<ZEEStates> {
             ],
           )));
     });
+    return searchedProducts;
   }
 
   Future<void> makeAnOrder(BuildContext context, String productID,
@@ -249,10 +270,13 @@ class ZEECubit extends Cubit<ZEEStates> {
     emit(UpdateSmallData());
     final db = await SharedPreferences.getInstance();
     List<String>? userData = db.getStringList("userData");
-    var response = await Dio().post(
-        "$BASE_URL/usersPage/products/$productID/order_this_product",
-        options: Options(headers: {"token": userToken!.trim()}),
-        data: {
+    await Dio()
+        .post("$BASE_URL/usersPage/products/$productID/order_this_product",
+            options: Options(headers: {
+              "token": userToken!.trim(),
+              "X-API-Key": "a012pqE1mKDy_Eixq4TJGdxhKiTStUUHhAXuGMVnXvSwm"
+            }),
+            data: {
           "address": address,
           "userName": userData![0],
           "phoneNumber": userData[1],
@@ -264,12 +288,13 @@ class ZEECubit extends Cubit<ZEEStates> {
             "images": product.images
           }
         }).then((value) {
+      Navigator.pop(context);
       isRendered = true;
       emit(UpdateSmallData());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           content: Row(
-            children: [Icon(Icons.done), Text(value.data["success"])],
+            children: [const Icon(Icons.done), Text(value.data["success"])],
           )));
     }).catchError((onError) {
       isRendered = true;

@@ -24,12 +24,12 @@ def getProducts(response: Response, token: str = Header(...)):
 
 # searching for specific product in database
 @trading.post("/usersPage/products/search")
-def searchProduct(response: Response, token: str = Header(...), search: str = Body(...)):
+def searchProduct(response: Response, token: str = Header(...), search: dict = Body(...)):
     if(isValidToken(token)):
         products = []
         database[DBNAME]["Products"].create_index([("name", "text")])
 
-        for p in database[DBNAME]["Products"].find({"$text": {"$search": f"\"{search}\"" } } ):
+        for p in database[DBNAME]["Products"].find({"$text": {"$search": search["word"]} } ):
             p["_id"] = str(p["_id"])
             products.append(p)
         return products

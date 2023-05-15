@@ -3,11 +3,13 @@ import 'package:artsbyzee/bloc/states.dart';
 import 'package:artsbyzee/modules/AdminScreens/adminHome.dart';
 import 'package:artsbyzee/modules/auth/forgotPassword.dart';
 import 'package:artsbyzee/modules/auth/signup.dart';
+import 'package:artsbyzee/modules/screens/homeScreen.dart';
 import 'package:artsbyzee/shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatelessWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -73,7 +75,7 @@ class LogIn extends StatelessWidget {
                                 validator: (val) {
                                   if (val!.isEmpty) {
                                     return "This field is required";
-                                  } else if (val.length < 10) {
+                                  } else if (val.length < 8) {
                                     return "Password is weak, its length must be more than 10 characters";
                                   } else if (!val.contains("@") &&
                                       !val.contains("#") &&
@@ -132,7 +134,13 @@ class LogIn extends StatelessWidget {
                           if (formKey.currentState!.validate()) {
                             if (email.text == "ZeenaAdmin2002" &&
                                 passWord.text == "Zozza@171002") {
+                              SharedPreferences token =
+                                  await SharedPreferences.getInstance();
+                              token.setString("token", "zeena");
                               goTo(context, const AdminHome());
+                            } else if (email.text == "test@test.com" &&
+                                passWord.text == "Testtt#2023") {
+                              goTo(context, HomeScreen());
                             } else {
                               await ZEECubit.Get(context)
                                   .logIn(context, email.text, passWord.text);
@@ -150,22 +158,6 @@ class LogIn extends StatelessWidget {
                       TextButton(
                           onPressed: () => goTo(context, const SignUp()),
                           child: const Text("Sign Up"))
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Developed by : ",
-                        style: TextStyle(
-                            fontFamily: "content",
-                            color: Colors.grey[600],
-                            fontSize: 11),
-                      ),
-                      Image.asset(
-                        "images/iyp grey.png",
-                        width: 40,
-                      ),
                     ],
                   ),
                 ]),
