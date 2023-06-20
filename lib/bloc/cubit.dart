@@ -252,6 +252,7 @@ class ZEECubit extends Cubit<ZEEStates> {
             }))
         .then((value) {
       print(value.data);
+      print(value.data);
       value.data.forEach((val) {
         searchedProducts.add(Product(
           name: val["name"],
@@ -270,6 +271,7 @@ class ZEECubit extends Cubit<ZEEStates> {
             ],
           )));
     });
+    return searchedProducts;
     return searchedProducts;
   }
 
@@ -297,6 +299,7 @@ class ZEECubit extends Cubit<ZEEStates> {
             "images": product.images
           }
         }).then((value) {
+      Navigator.pop(context);
       Navigator.pop(context);
       isRendered = true;
       emit(UpdateSmallData());

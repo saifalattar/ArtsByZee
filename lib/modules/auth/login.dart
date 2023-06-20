@@ -75,7 +75,7 @@ class LogIn extends StatelessWidget {
                                 validator: (val) {
                                   if (val!.isEmpty) {
                                     return "This field is required";
-                                  } else if (val.length < 10) {
+                                  } else if (val.length < 8) {
                                     return "Password is weak, its length must be more than 10 characters";
                                   } else if (!val.contains("@") &&
                                       !val.contains("#") &&
@@ -158,22 +158,6 @@ class LogIn extends StatelessWidget {
                       TextButton(
                           onPressed: () => goTo(context, const SignUp()),
                           child: const Text("Sign Up"))
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Developed by : ",
-                        style: TextStyle(
-                            fontFamily: "content",
-                            color: Colors.grey[600],
-                            fontSize: 11),
-                      ),
-                      Image.asset(
-                        "images/iyp grey.png",
-                        width: 40,
-                      ),
                     ],
                   ),
                 ]),
