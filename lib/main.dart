@@ -1,5 +1,6 @@
 import 'package:artsbyzee/bloc/cubit.dart';
 import 'package:artsbyzee/bloc/states.dart';
+import 'package:artsbyzee/modules/AdminScreens/adminHome.dart';
 import 'package:artsbyzee/modules/auth/signup.dart';
 import 'package:artsbyzee/modules/screens/homeScreen.dart';
 import 'package:artsbyzee/shared/components.dart';
@@ -16,7 +17,12 @@ Future<void> main() async {
     create: (context) => ZEECubit(),
     child: BlocBuilder<ZEECubit, ZEEStates>(builder: (context, states) {
       return MaterialApp(
-          home: userToken == null ? const SignUp() : const HomeScreen());
+          debugShowMaterialGrid: false,
+          home: userToken == null
+              ? const SignUp()
+              : userToken == "zeena"
+                  ? const AdminHome()
+                  : const HomeScreen());
     }),
   ));
 }

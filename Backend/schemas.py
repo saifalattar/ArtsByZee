@@ -27,4 +27,9 @@ class Order(pydantic.BaseModel):
     phoneNumber: str
     describe: str
 
+class Tutorial(pydantic.BaseModel):
+    title: str
+    description: str
+    link: str
+    uploadedDate: Optional[str]
 ################################ FINISHED #############################

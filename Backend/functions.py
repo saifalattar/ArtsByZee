@@ -3,9 +3,8 @@ from email.mime.text import MIMEText
 from bson import ObjectId
 from random import randrange
 import smtplib
-from jose import jwt
+import jwt
 from passlib.context import CryptContext
-
 from schemas import DBNAME, database
 
 #to check whether the password is strong or not
@@ -20,7 +19,7 @@ def isStrongPassword(password:str):
 
 # tokenization function 
 def getToken(payloads: dict):
-    token = jwt.encode(claims=payloads, key="Zeenaisthebestartist2002", algorithm="HS256")
+    token = jwt.encode(payload=payloads, key="Zeenaisthebestartist2002", algorithm="HS256")
     return token
 
 context = CryptContext(schemes=["bcrypt"], deprecated="auto")

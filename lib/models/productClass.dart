@@ -30,10 +30,12 @@ class Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // product full screen
     return BlocBuilder<ZEECubit, ZEEStates>(builder: (context, state) {
       var cubit = ZEECubit.Get(context);
       return Scaffold(
         appBar: AppBar(
+          title: Text(this.name.toString()),
           elevation: 0,
           toolbarHeight: 50,
           backgroundColor: pink,
@@ -159,6 +161,7 @@ class Product extends StatelessWidget {
               children: [
                 Text(
                   "$name\n\n\n",
+                  overflow: TextOverflow.clip,
                   style: style,
                 ),
                 Text("$price EGP",
@@ -169,10 +172,7 @@ class Product extends StatelessWidget {
               ],
             ),
             !isForDelete
-                ? const Icon(
-                    Icons.navigate_next,
-                    size: 30,
-                  )
+                ? Container()
                 : isRendered
                     ? IconButton(
                         onPressed: () {
@@ -211,10 +211,11 @@ class Product extends StatelessWidget {
               height: 200,
               child: Image.network(images![0]),
             ),
-            Text(
-              "$name",
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+            Text("$name",
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
             Text(
               "$price EGP",
               style: const TextStyle(

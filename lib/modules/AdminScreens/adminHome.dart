@@ -3,6 +3,7 @@ import 'package:artsbyzee/bloc/states.dart';
 import 'package:artsbyzee/modules/AdminScreens/addProducts.dart';
 import 'package:artsbyzee/modules/AdminScreens/allOrders.dart';
 import 'package:artsbyzee/modules/AdminScreens/deleteProducts.dart';
+import 'package:artsbyzee/modules/auth/login.dart';
 import 'package:artsbyzee/shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -21,6 +22,17 @@ class AdminHome extends StatelessWidget {
           title: const Center(
             child: Text("Admin App"),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  ZEECubit.Get(context).signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogIn()),
+                      (route) => false);
+                },
+                icon: const Icon(Icons.person, color: Colors.grey))
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -29,7 +41,7 @@ class AdminHome extends StatelessWidget {
             children: [
               Center(
                   child: Text(
-                "Welcome  !!",
+                "Welcome ZOZAAA !!",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 35,

@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String BASE_URL = "https://1bwiq9.deta.dev";
+//"https://1bwiq9.deta.dev"
+String BASE_URL = "https://artsbyzee-1-q0571098.deta.app";
 
 String? userToken;
 
