@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Body, Response, status
 from bson import ObjectId
 from schemas import DBNAME, database, Tutorial
 from functions import isValidToken
@@ -28,3 +28,13 @@ def postTutorial(token,response:Response, tut: Tutorial):
     else:
         response.status_code = status.HTTP_401_UNAUTHORIZED
         return {"failure": "Something error with your token re-login please"}
+
+@tutorials.delete("/admin/deleteTutorial")
+def deleteTutorial(response: Response, tutorialId: dict = Body(...)):
+    try:
+        tutorial = database[DBNAME]["Tutorials"].find_one_and_delete(filter={"_id":ObjectId(tutorialId["id"])})
+        return {"success":f"The tutorial \"{tutorial['title']}\" has been deleted successfully"}
+    except:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {"failure": "Something error happend ZOZZA, Call me :)"}
+     
